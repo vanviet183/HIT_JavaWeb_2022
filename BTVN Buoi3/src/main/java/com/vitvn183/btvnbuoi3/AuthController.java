@@ -34,7 +34,7 @@ public class AuthController {
     @GetMapping("/success")
     public String getResult(@ModelAttribute User user) {
         User userLogin = new User();
-        if (userLogin.handleLogin(user.getUsername(), user.getPassword())) {
+        if (userLogin.equals(user)) {
             error = false;
             login = true;
             return "redirect:/users";
