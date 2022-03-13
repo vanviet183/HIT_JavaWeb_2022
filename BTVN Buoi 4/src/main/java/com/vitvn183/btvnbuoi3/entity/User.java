@@ -1,11 +1,13 @@
 package com.vitvn183.btvnbuoi3.entity;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Nationalized;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Objects;
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -22,8 +24,15 @@ public class User {
     @Nationalized
     private String fullName;
 
-    private String password;
     private String username;
+    private String password;
+
+    @CreationTimestamp
+    private Timestamp created;
+
+    @UpdateTimestamp
+    private Timestamp updated;
+
 
 
 

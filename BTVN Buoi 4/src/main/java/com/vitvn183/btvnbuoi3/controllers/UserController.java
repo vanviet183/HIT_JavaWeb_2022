@@ -1,6 +1,5 @@
 package com.vitvn183.btvnbuoi3.controllers;
 
-import com.vitvn183.btvnbuoi3.entity.Store;
 import com.vitvn183.btvnbuoi3.entity.User;
 import com.vitvn183.btvnbuoi3.models.dto.UserDto;
 import com.vitvn183.btvnbuoi3.models.mapper.UserMapper;
@@ -11,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/users")

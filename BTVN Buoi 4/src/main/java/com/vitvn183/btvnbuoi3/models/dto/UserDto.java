@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,4 +16,7 @@ public class UserDto {
 
     private String fullName;
     private String username;
+
+    private Timestamp created;
+    private Timestamp updated;
 }

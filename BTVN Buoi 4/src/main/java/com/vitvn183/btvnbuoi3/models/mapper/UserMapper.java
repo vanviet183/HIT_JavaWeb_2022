@@ -10,6 +10,8 @@ public class UserMapper {
         userDto.setId(user.getId());
         userDto.setFullName(user.getFullName());
         userDto.setUsername(user.getUsername());
+        userDto.setCreated(user.getCreated());
+        userDto.setUpdated(user.getUpdated());
         return userDto;
     }
 }

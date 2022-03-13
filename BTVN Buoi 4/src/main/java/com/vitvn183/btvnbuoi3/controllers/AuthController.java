@@ -45,11 +45,12 @@ public class AuthController {
     public String getListUser(Model model) {
         List<UserDto> userDtoList = userService.getListUserDtos();
         model.addAttribute("userDTOs", userDtoList);
-        if(login) {
-            return "success";
-        }
-        login = false;
-        return "redirect:/login";
+//        if(login) {
+//            return "success";
+//        }
+//        login = false;
+//        return "redirect:/login";
+        return "success";
     }
 
     // get user by id
