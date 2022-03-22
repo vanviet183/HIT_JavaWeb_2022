@@ -1,0 +1,49 @@
+body {
+    background: url('/img/bg.jfif') no-repeat center center / cover;
+}
+
+.name-web {
+    font-size: 60px;
+    letter-spacing: 20px;
+}
+
+.short-link {
+    border: none;
+    outline: none;
+    width: 100%;
+    background: transparent;
+    text-align: center;
+}
+
+.btn-coppy {
+    position: relative;
+}
+
+.btn-coppy:before {
+    content: "Copied";
+    position: absolute;
+    top: -145%;
+    left: -42%;
+    background: #5c81dc;
+    border-radius: 10px;
+    color: #fff;
+    padding: 8px 10px;
+    display: none;
+}
+
+.btn-coppy:after {
+    content: "";
+    position: absolute;
+    top: -55%;
+    left: 35%;
+    width: 10px;
+    height: 10px;
+    background: #5c81dc;
+    transform: rotate(45deg);
+    display: none;
+}
+
+.contain-tooltip.active .btn-coppy:before,
+.contain-tooltip.active .btn-coppy:after {
+    display: block;
+}
