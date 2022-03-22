@@ -36,7 +36,7 @@
     <tbody>
     <tr th:each="originalLink : ${originalLinks}">
         <th scope="row" th:text="${originalLink.id}">1</th>
-        <td th:text="${originalLink.link}" class="w-50"></td>
+        <td th:text="${originalLink.link}"></td>
         <td>
             <input type="text" th:value="'http://localhost:8080/' + ${originalLink.shortLink}" class="short-link">
         </td>
