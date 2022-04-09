@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -24,39 +25,57 @@ public class AddressServiceImpl implements AddressService {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Override
-    public void addNew(Long darlingId, AddressDto addressDto) {
-        Optional<Darling> darling = darlingRepository.findById(darlingId);
-        if(darling.isEmpty()) {
-            throw new NotFoundException("Darling's id not found");
-        }
-        Address addressNew = new Address();
-        createOrUpdate(addressNew, darlingId, addressDto);
-        addressNew.setDarling(darling.get());
 
+    @Override
+    public List<Address> getAll() {
+        return addressRepository.findAll();
     }
 
     @Override
-    public void update(Long darlingId, Long id, AddressDto addressDto) {
+    public Address getById(Long id) {
+        Optional<Address> address = addressRepository.findById(id);
+        return address.get();
+    }
+
+    @Override
+    public List<Address> getByDarlingId(Long darlingId) {
         Optional<Darling> darling = darlingRepository.findById(darlingId);
         checkDarlingException(darling);
-        Optional<Address> address = addressRepository.findById(id);
-        checkAddressException(address);
-        createOrUpdate(address.get(), darlingId, addressDto);
+        List<Address> addressList = addressRepository.findAddressByDarlingId(darlingId);
+        return addressList;
     }
 
-    private void createOrUpdate(Address address, Long darlingId, AddressDto addressDto) {
-        address.setCode(addressDto.getCode());
-        address.setName(addressDto.getName());
+    @Override
+    public Address addNew(Long darlingId, AddressDto addressDto) throws Exception {
 
-        addressRepository.save(address);
+        return createOrUpdate(new Address(), darlingId, addressDto);
+    }
 
+    @Override
+    public Address update(Long darlingId, Long id, AddressDto addressDto) throws Exception {
+        Optional<Address> address = addressRepository.findById(id);
+        checkAddressException(address);
+
+        return createOrUpdate(address.get(), darlingId, addressDto);
+    }
+
+    private Address createOrUpdate(Address address, Long darlingId, AddressDto addressDto) throws Exception {
+        Optional<Darling> darling = darlingRepository.findById(darlingId);
+        checkDarlingException(darling);
+        try {
+            modelMapper.map(addressDto, address);
+            address.setDarling(darling.get());
+            return addressRepository.save(address);
+        } catch (Exception e) {
+            throw new Exception("There are exceptions. Can not save darling");
+        }
     }
 
     @Override
     public void delete(Long darlingId, Long id) {
         Optional<Darling> darling = darlingRepository.findById(darlingId);
         checkDarlingException(darling);
+
         addressRepository.deleteById(id);
     }
 
