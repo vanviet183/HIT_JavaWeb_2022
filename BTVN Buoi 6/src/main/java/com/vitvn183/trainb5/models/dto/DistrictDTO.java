@@ -21,6 +21,6 @@ public class DistrictDTO {
     @Nationalized
     private String path;
 
-    private String code;
+    private Long code;
 
 }

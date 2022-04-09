@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,41 +30,58 @@ public class DistrictServiceImp implements DistrictService {
         if (page == null) {
             districts = districtRepository.findAll();
         } else {
-            districts = districtRepository.findAll(PageRequest.of(page, 3)).getContent();
+            districts = districtRepository.findAll(PageRequest.of(page, 10)).getContent();
         }
         return districts;
     }
 
 
+
     @Override
-    public Optional<Districts> getById(Long id) {
-        Optional<Districts> district = districtRepository.findById(id);
+    public Optional<Districts> getByCode(Long code) {
+        Optional<Districts> district = districtRepository.findByCode(code);
         if (district.isEmpty()) {
-            throw new NotFoundException("District id: " + id + " not found!");
+            throw new NotFoundException("District code: " + code + " not found!");
         }
         return district;
     }
 
     @Override
-    public void addNew(Long id, DistrictDTO districtDTO) {
-        Optional<Provinces> province = provinceRepository.findById(id);
+    public void addNew(Long code, DistrictDTO districtDTO) {
+        Optional<Provinces> province = provinceRepository.findByCode(code);
         if (province.isEmpty()) {
-            throw new NotFoundException("Province id: " + id + " not found!");
+            throw new NotFoundException("Province code: " + code + " not found!");
         }
 
         Districts districtNew = createOrUpdate(new Districts(), districtDTO);
 
-        districtNew.setParentCode(id);
+        districtNew.setParentCode(code);
         districtNew.setProvince(province.get());
 
         districtRepository.save(districtNew);
     }
 
     @Override
-    public void update(Long id, DistrictDTO districtDTO) {
-        Optional<Districts> district = districtRepository.findById(id);
+    @Transactional
+    public void addList(Long code, List<DistrictDTO> districtDTOList) {
+        Optional<Provinces> province = provinceRepository.findByCode(code);
+        if (province.isEmpty()) {
+            throw new NotFoundException("Province code: " + code + " not found!");
+        }
+        districtDTOList.forEach(districtDTO -> {
+            Districts districtNew = createOrUpdate(new Districts(), districtDTO);
+            districtNew.setParentCode(code);
+            districtNew.setProvince(province.get());
+            districtRepository.save(districtNew);
+        });
+
+    }
+
+    @Override
+    public void update(Long code, DistrictDTO districtDTO) {
+        Optional<Districts> district = districtRepository.findByCode(code);
         if(district.isEmpty()) {
-            throw new NotFoundException("District id: " + id + " not found!");
+            throw new NotFoundException("District code: " + code + " not found!");
         }
 
         Districts districtUpdate = createOrUpdate(district.get(), districtDTO);
@@ -71,12 +89,12 @@ public class DistrictServiceImp implements DistrictService {
     }
 
     @Override
-    public void delete(Long id) {
-        Optional<Districts> district = districtRepository.findById(id);
+    public void delete(Long code) {
+        Optional<Districts> district = districtRepository.findByCode(code);
         if (district.isEmpty()) {
-            throw new NotFoundException("District id: " + id + " not found!");
+            throw new NotFoundException("District code: " + code + " not found!");
         }
-        districtRepository.deleteById(id);
+        districtRepository.deleteById(code);
     }
 
     public Districts createOrUpdate(Districts district, DistrictDTO districtDTO) {

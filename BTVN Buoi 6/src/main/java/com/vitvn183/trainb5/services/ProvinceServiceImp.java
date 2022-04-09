@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,26 +30,26 @@ public class ProvinceServiceImp implements ProvinceService {
         if(page == null) {
             provinces = provinceRepository.findAll();
         } else {
-            provinces = provinceRepository.findAll(PageRequest.of(page, 3)).getContent();
+            provinces = provinceRepository.findAll(PageRequest.of(page, 10)).getContent();
         }
 
         return provinces;
     }
 
     @Override
-    public Optional<Provinces> getById(Long id) {
-        Optional<Provinces> province = provinceRepository.findById(id);
+    public Optional<Provinces> getByCode(Long code) {
+        Optional<Provinces> province = provinceRepository.findByCode(code);
         if (province.isEmpty()) {
-            throw new NotFoundException("Province id: " + id + " not found!");
+            throw new NotFoundException("Province code: " + code + " not found!");
         }
         return province;
     }
 
     @Override
-    public List<Districts> getListDistrict(Long id) {
-        Optional<Provinces> province = provinceRepository.findById(id);
+    public List<Districts> getListDistrict(Long code) {
+        Optional<Provinces> province = provinceRepository.findByCode(code);
         if(province.isEmpty()) {
-            throw new NotFoundException("Province id: " + id + " not found!");
+            throw new NotFoundException("Province code: " + code + " not found!");
         }
 
         Provinces provinceDetail = province.get();
@@ -62,22 +63,30 @@ public class ProvinceServiceImp implements ProvinceService {
     }
 
     @Override
-    public void update(Long id, ProvinceDTO provinceDTO) {
-        Optional<Provinces> province = provinceRepository.findById(id);
+    @Transactional
+    public void addList(List<ProvinceDTO> provinceDTOList) {
+        provinceDTOList.forEach(provinceDTO -> {
+            createOrUpdate(new Provinces(), provinceDTO);
+        });
+    }
+
+    @Override
+    public void update(Long code, ProvinceDTO provinceDTO) {
+        Optional<Provinces> province = provinceRepository.findByCode(code);
         if(province.isEmpty()) {
-            throw new NotFoundException("Province id: " + id + " not found!");
+            throw new NotFoundException("Province code: " + code + " not found!");
         }
         createOrUpdate(province.get(), provinceDTO);
     }
 
     @Override
-    public void delete(Long id) {
-        Optional<Provinces> province = provinceRepository.findById(id);
+    public void delete(Long code) {
+        Optional<Provinces> province = provinceRepository.findByCode(code);
         if(province.isEmpty()) {
-            throw new NotFoundException("Province id: " + id + " not found!");
+            throw new NotFoundException("Province code: " + code + " not found!");
         }
 
-        provinceRepository.deleteById(id);
+        provinceRepository.deleteByCode(code);
     }
 
     public void createOrUpdate(Provinces province, ProvinceDTO provinceDTO) {

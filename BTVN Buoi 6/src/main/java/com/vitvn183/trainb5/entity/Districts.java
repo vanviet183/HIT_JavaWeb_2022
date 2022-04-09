@@ -40,7 +40,7 @@ public class Districts {
     @Column(name = "path_with_type")
     private String pathWithType;
 
-    private String code;
+    private Long code;
 
     @Column(name = "parent_code")
     private Long parentCode;

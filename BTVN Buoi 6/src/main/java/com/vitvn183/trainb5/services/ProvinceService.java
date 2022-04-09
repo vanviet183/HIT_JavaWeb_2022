@@ -14,13 +14,15 @@ public interface ProvinceService {
 
     public List<Provinces> getAll(Integer page);
 
-    public Optional<Provinces> getById(Long id);
+    public Optional<Provinces> getByCode(Long code);
 
-    public List<Districts> getListDistrict(Long id);
+    public List<Districts> getListDistrict(Long code);
 
     public void addNew(ProvinceDTO provinceDTO);
 
-    public void update(Long id, ProvinceDTO provinceDTO);
+    public void addList(List<ProvinceDTO> provinceDTOList);
 
-    public void delete(Long id);
+    public void update(Long code, ProvinceDTO provinceDTO);
+
+    public void delete(Long code);
 }

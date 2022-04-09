@@ -1,4 +1,4 @@
-package com.vitvn183.trainb5.entity;
+package com.vitvn183.exam1.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -18,25 +18,20 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "provinces")
-public class Provinces {
-
+@Table(name = "darlinges")
+public class Darling {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long provinceId;
+    private Long id;
 
     @Nationalized
     private String name;
 
-    private String slug;
+    private String phone;
 
-    private String type;
+    private String email;
 
-    @Nationalized
-    @Column(name = "name_with_type")
-    private String nameWithType;
-
-    private Long code;
+    private String favorite;
 
     @CreationTimestamp
     private Timestamp created;
@@ -44,10 +39,9 @@ public class Provinces {
     @UpdateTimestamp
     private Timestamp updated;
 
-    private Boolean status = Boolean.TRUE;
+    private Integer status;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "province")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "darling")
     @JsonIgnore
-    private List<Districts> districts;
-
+    private List<Address> addressList;
 }

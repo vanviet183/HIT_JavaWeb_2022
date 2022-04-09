@@ -1,4 +1,4 @@
-package com.vitvn183.trainb5.models.dto;
+package com.vitvn183.exam1.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,11 +10,16 @@ import org.hibernate.annotations.Nationalized;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProvinceDTO {
+public class DarlingDto {
+
     @Nationalized
     private String name;
 
-    private String type;
+    private String phone;
 
-    private Long code;
+    private String email;
+
+    private String favorite;
+
+    private Integer status;
 }
