@@ -38,9 +38,9 @@ public class AddressController {
         return ResponseEntity.ok().body(addressServiceImpl.update(darlingId, id, addressDto));
     }
 
-    @DeleteMapping("/{darlingId}")
+    @DeleteMapping("/{darlingId}/{id}")
     public ResponseEntity<?> delete(@PathVariable("darlingId") Long darlingId, @PathVariable("id") Long id) {
         addressServiceImpl.delete(darlingId, id);
-        return ResponseEntity.ok().body("Delete than cong");
+        return ResponseEntity.ok().body("Delete thanh cong");
     }
 }

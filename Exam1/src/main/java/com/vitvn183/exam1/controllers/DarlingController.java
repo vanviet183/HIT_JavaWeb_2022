@@ -45,7 +45,7 @@ public class DarlingController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") Long id, DarlingDto darlingDto) throws Exception {
+    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody DarlingDto darlingDto) throws Exception {
         return ResponseEntity.ok().body(darlingServiceImpl.update(id, darlingDto));
     }
 
@@ -60,7 +60,7 @@ public class DarlingController {
         return ResponseEntity.ok().body(darlingServiceImpl.getAddress(id));
     }
 
-    @GetMapping("/q")
+    @GetMapping("/{id}/addresses/q")
     public ResponseEntity<?> getByProvince(@RequestParam(value = "q", required = false) String province) {
         return ResponseEntity.ok().body(darlingServiceImpl.getTheoTinh(province));
     }
