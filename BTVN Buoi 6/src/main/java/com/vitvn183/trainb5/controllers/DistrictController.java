@@ -38,11 +38,11 @@ public class DistrictController {
         return ResponseEntity.status(201).body("Add success!");
     }
 
-    @PostMapping(UrlConstant.Districts.DISTRICT_WITH_CODE)
-    public ResponseEntity<?> addList(@PathVariable(name = "code") Long code, @RequestBody List<DistrictDTO> districtDTOList) {
-        districtServiceImp.addList(code, districtDTOList);
-        return ResponseEntity.status(201).body("Add success!");
-    }
+//    @PostMapping(UrlConstant.Districts.DISTRICT_WITH_CODE)
+//    public ResponseEntity<?> addList(@PathVariable(name = "code") Long code, @RequestBody List<DistrictDTO> districtDTOList) {
+//        districtServiceImp.addList(code, districtDTOList);
+//        return ResponseEntity.status(201).body("Add success!");
+//    }
 
     // patch district
     @PatchMapping(UrlConstant.Districts.COLLECTION)
